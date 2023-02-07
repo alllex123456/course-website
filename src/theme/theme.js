@@ -21,8 +21,11 @@ export const theme = createTheme({
       fontFamily: 'Raleway',
       fontSize: '0.8rem',
       textTransform: 'none',
-      fontWeight: 700,
       color: 'common.white',
+      opacity: 0.9,
+      '&: hover': {
+        opacity: 1,
+      },
     },
     pacificoBtn: {
       fontFamily: 'Pacifico',
