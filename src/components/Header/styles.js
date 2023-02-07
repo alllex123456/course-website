@@ -13,4 +13,8 @@ export const headerStyles = {
     marginLeft: '50px',
     marginRight: '25px',
   },
+  logoBtn: {
+    backgroundColor: 'transparent',
+    padding: 0,
+  },
 };
