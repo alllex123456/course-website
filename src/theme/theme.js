@@ -22,7 +22,7 @@ export const theme = createTheme({
       fontSize: '0.8rem',
       textTransform: 'none',
       color: 'common.white',
-      opacity: 0.9,
+      opacity: 0.8,
       '&: hover': {
         opacity: 1,
       },

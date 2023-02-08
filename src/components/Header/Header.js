@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import styled from '@emotion/styled';
 
+import styled from '@emotion/styled';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
@@ -15,6 +15,15 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
+import AddRoadIcon from '@mui/icons-material/AddRoad';
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import InfoIcon from '@mui/icons-material/Info';
+import HomeIcon from '@mui/icons-material/Home';
 
 import { useTheme } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
@@ -46,20 +55,38 @@ const Header = (props) => {
     /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const [currentTab, setCurrentTab] = useState(
-    `/${window.location.pathname.split('/')[1]}`
+    `/${window.location.pathname.split('/')[1]}` === '/'
+      ? '/home'
+      : `/${window.location.pathname.split('/')[1]}`
   );
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [currentListIndex, setCurrentListIndex] = useState(0);
 
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setOpenDrawer(open);
+  };
+
+  const handleCurrentListIndex = (event, index) => setCurrentListIndex(index);
 
   const menuOptions = [
     { label: 'Custom software development', route: 'custom-software' },
@@ -67,54 +94,42 @@ const Header = (props) => {
     { label: 'Website development', route: 'website-development' },
   ];
 
+  const navOptions = [
+    { label: 'Home', route: '/home', icon: <HomeIcon /> },
+    {
+      label: 'Services',
+      route: '/services',
+      icon: <DesignServicesIcon />,
+      id: 'hover-menu-button',
+      ariaControls: open ? 'hover-menu' : undefined,
+      ariaHasPopup: 'true',
+      ariaExpanded: open ? 'true' : undefined,
+      onMouseOver: handleClick,
+    },
+    { label: 'The Revolution', route: '/revolution', icon: <AddRoadIcon /> },
+    { label: 'About Us', route: '/about', icon: <InfoIcon /> },
+    { label: 'Contact Us', route: '/contact', icon: <AlternateEmailIcon /> },
+  ];
+
   const tabs = (
     <React.Fragment>
       <Tabs sx={headerStyles.tabs} textColor="secondary" value={currentTab}>
-        <Tab
-          component={Link}
-          value="/home"
-          to="/home"
-          sx={headerStyles.tab}
-          label="Home"
-          onClick={() => setCurrentTab('/home')}
-        />
-        <Tab
-          component={Link}
-          value="/services"
-          to="/services"
-          sx={headerStyles.tab}
-          label="Services"
-          onClick={() => setCurrentTab('/services')}
-          id="hover-menu-button"
-          aria-controls={open ? 'hover-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onMouseOver={handleClick}
-        />
-        <Tab
-          component={Link}
-          value="/revolution"
-          to="/revolution"
-          sx={headerStyles.tab}
-          label="The Revolution"
-          onClick={() => setCurrentTab('/revolution')}
-        />
-        <Tab
-          component={Link}
-          value="/about"
-          to="/about"
-          sx={headerStyles.tab}
-          label="About Us"
-          onClick={() => setCurrentTab('/about')}
-        />
-        <Tab
-          component={Link}
-          value="/contact"
-          to="/contact"
-          sx={headerStyles.tab}
-          label="Contact Us"
-          onClick={() => setCurrentTab('/contact')}
-        />
+        {navOptions.map((item, index) => (
+          <Tab
+            key={index}
+            id={item.id}
+            aria-controls={item.ariaControls}
+            aria-haspopup={item.ariaHasPopup}
+            aria-expanded={item.ariaExpanded}
+            onMouseOver={item.onMouseOver}
+            component={Link}
+            label={item.label}
+            value={item.route}
+            to={item.route}
+            onClick={() => setCurrentTab(item.route)}
+            sx={headerStyles.tab}
+          />
+        ))}
       </Tabs>
       <Button
         variant="contained"
@@ -153,6 +168,41 @@ const Header = (props) => {
     </React.Fragment>
   );
 
+  const list = (
+    <React.Fragment>
+      <Offset />
+      <Box
+        sx={headerStyles.drawerList}
+        role="presentation"
+        onClick={toggleDrawer(false)}
+        onKeyDown={toggleDrawer(false)}
+      >
+        <List>
+          {navOptions.map((item, index) => (
+            <ListItemButton
+              key={index}
+              component={Link}
+              value={item.route}
+              to={item.route}
+              selected={index === currentListIndex}
+              onClick={(event) => {
+                setCurrentTab(item.route);
+                handleCurrentListIndex(event, index);
+              }}
+              divider
+              sx={headerStyles.listItem}
+            >
+              <ListItemIcon sx={headerStyles.listItemIcon}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.label} />
+            </ListItemButton>
+          ))}
+        </List>
+      </Box>
+    </React.Fragment>
+  );
+
   const drawer = (
     <React.Fragment>
       <SwipeableDrawer
@@ -161,8 +211,16 @@ const Header = (props) => {
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
+        sx={headerStyles.drawer}
       >
-        <Box>sdghfg</Box>
+        {list}
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={headerStyles.freeEstimateButton}
+        >
+          Free estimate
+        </Button>
       </SwipeableDrawer>
       <IconButton onClick={() => setOpenDrawer((prev) => !prev)} disableRipple>
         <MenuIcon />
@@ -174,7 +232,7 @@ const Header = (props) => {
     <React.Fragment>
       <CssBaseline />
       <ElevationScroll {...props}>
-        <AppBar position="fixed">
+        <AppBar position="fixed" sx={headerStyles.appBar}>
           <Toolbar disableGutters>
             <Button
               component={Link}

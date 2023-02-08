@@ -1,6 +1,9 @@
 import { theme } from '../../theme/theme';
 
 export const headerStyles = {
+  appBar: {
+    zIndex: theme.zIndex.modal + 1,
+  },
   tabs: {
     marginLeft: 'auto',
   },
@@ -33,5 +36,28 @@ export const headerStyles = {
     '&:hover': {
       color: 'secondary.main',
     },
+  },
+  drawer: {
+    '& .MuiDrawer-paper': { backgroundColor: 'primary.main' },
+    '& .MuiButtonBase-root': {
+      margin: 0,
+      borderRadius: 0,
+    },
+  },
+
+  drawerList: {
+    width: '240px',
+    color: 'common.white',
+  },
+  listItem: {
+    '&.Mui-selected': { color: 'secondary.main' },
+    ...theme.typography.tab,
+    '.MuiTypography-root': {
+      fontFamily: 'Raleway',
+    },
+  },
+
+  listItemIcon: {
+    color: 'common.white',
   },
 };
