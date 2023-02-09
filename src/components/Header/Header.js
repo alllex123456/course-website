@@ -54,15 +54,8 @@ const Header = (props) => {
     typeof navigator !== 'undefined' &&
     /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-  const [currentTab, setCurrentTab] = useState(
-    `/${window.location.pathname.split('/')[1]}` === '/'
-      ? '/home'
-      : `/${window.location.pathname.split('/')[1]}`
-  );
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [currentListIndex, setCurrentListIndex] = useState(0);
 
   const open = Boolean(anchorEl);
 
@@ -86,7 +79,8 @@ const Header = (props) => {
     setOpenDrawer(open);
   };
 
-  const handleCurrentListIndex = (event, index) => setCurrentListIndex(index);
+  const handleCurrentListIndex = (event, index) =>
+    props.setCurrentListIndex(index);
 
   const menuOptions = [
     { label: 'Custom software development', route: 'custom-software' },
@@ -113,7 +107,11 @@ const Header = (props) => {
 
   const tabs = (
     <React.Fragment>
-      <Tabs sx={headerStyles.tabs} textColor="secondary" value={currentTab}>
+      <Tabs
+        sx={headerStyles.tabs}
+        textColor="secondary"
+        value={props.currentTab}
+      >
         {navOptions.map((item, index) => (
           <Tab
             key={index}
@@ -126,7 +124,7 @@ const Header = (props) => {
             label={item.label}
             value={item.route}
             to={item.route}
-            onClick={() => setCurrentTab(item.route)}
+            onClick={() => props.setCurrentTab(item.route)}
             sx={headerStyles.tab}
           />
         ))}
@@ -156,7 +154,7 @@ const Header = (props) => {
             component={Link}
             to={`/services/${option.route}`}
             onClick={(event) => {
-              setCurrentTab('/services');
+              props.setCurrentTab('/services');
               handleClose();
             }}
             sx={headerStyles.menuItem}
@@ -184,10 +182,10 @@ const Header = (props) => {
               component={Link}
               value={item.route}
               to={item.route}
-              selected={index === currentListIndex}
+              selected={index === props.currentListIndex}
               onClick={(event) => {
-                setCurrentTab(item.route);
-                handleCurrentListIndex(event, index);
+                props.setCurrentTab(item.route);
+                props.handleCurrentListIndex(event, index);
               }}
               divider
               sx={headerStyles.listItem}
@@ -222,7 +220,11 @@ const Header = (props) => {
           Free estimate
         </Button>
       </SwipeableDrawer>
-      <IconButton onClick={() => setOpenDrawer((prev) => !prev)} disableRipple>
+      <IconButton
+        onClick={() => setOpenDrawer((prev) => !prev)}
+        disableRipple
+        sx={{ marginLeft: 'auto', color: 'white' }}
+      >
         <MenuIcon />
       </IconButton>
     </React.Fragment>
