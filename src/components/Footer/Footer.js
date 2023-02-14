@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -7,8 +7,11 @@ import Hidden from '@mui/material/Hidden';
 
 import { footerStyles } from './styles';
 import footerImage from '../../assets/Footer Adornment.svg';
+import { NavigationContext } from '../../context/Navigation';
 
 const Footer = (props) => {
+  const navigationContext = useContext(NavigationContext);
+
   return (
     <Box component={'footer'} sx={footerStyles.footer}>
       <Hidden mdDown>
@@ -24,7 +27,10 @@ const Footer = (props) => {
                 item
                 component={Link}
                 to="/home"
-                onClick={() => props.setCurrentTab('/home')}
+                onClick={() => {
+                  navigationContext.changeTab('/home');
+                  navigationContext.changeIndex(0);
+                }}
                 sx={footerStyles.gridItem}
               >
                 Home
@@ -37,7 +43,10 @@ const Footer = (props) => {
                 item
                 component={Link}
                 to="/services"
-                onClick={() => props.setCurrentTab('/services')}
+                onClick={() => {
+                  navigationContext.changeTab('/services');
+                  navigationContext.changeIndex(1);
+                }}
                 sx={footerStyles.gridItem}
               >
                 Services
@@ -45,8 +54,11 @@ const Footer = (props) => {
               <Grid
                 item
                 component={Link}
-                to="/custom-software"
-                onClick={() => props.setCurrentTab('/services')}
+                to="/services/custom-software"
+                onClick={() => {
+                  navigationContext.changeTab('/services');
+                  navigationContext.changeIndex(1);
+                }}
                 sx={footerStyles.gridItem}
               >
                 Custom software development
@@ -54,8 +66,11 @@ const Footer = (props) => {
               <Grid
                 item
                 component={Link}
-                to="/mobile-app-software"
-                onClick={() => props.setCurrentTab('/services')}
+                to="/services/mobile-app-software"
+                onClick={() => {
+                  navigationContext.changeTab('/services');
+                  navigationContext.changeIndex(1);
+                }}
                 sx={footerStyles.gridItem}
               >
                 Mobile app development
@@ -63,8 +78,11 @@ const Footer = (props) => {
               <Grid
                 item
                 component={Link}
-                to="/website-development"
-                onClick={() => props.setCurrentTab('/services')}
+                to="/services/website-development"
+                onClick={() => {
+                  navigationContext.changeTab('/services');
+                  navigationContext.changeIndex(1);
+                }}
                 sx={footerStyles.gridItem}
               >
                 Website development
@@ -77,7 +95,10 @@ const Footer = (props) => {
                 item
                 component={Link}
                 to="/revolution"
-                onClick={() => props.setCurrentTab('/revolution')}
+                onClick={() => {
+                  navigationContext.changeTab('/revolution');
+                  navigationContext.changeIndex(2);
+                }}
                 sx={footerStyles.gridItem}
               >
                 The Revolution
@@ -86,7 +107,10 @@ const Footer = (props) => {
                 item
                 component={Link}
                 to="/revolution"
-                onClick={() => props.setCurrentTab('/revolution')}
+                onClick={() => {
+                  navigationContext.changeTab('/revolution');
+                  navigationContext.changeIndex(2);
+                }}
                 sx={footerStyles.gridItem}
               >
                 Vision
@@ -95,7 +119,10 @@ const Footer = (props) => {
                 item
                 component={Link}
                 to="/revolution"
-                onClick={() => props.setCurrentTab('/revolution')}
+                onClick={() => {
+                  navigationContext.changeTab('/revolution');
+                  navigationContext.changeIndex(2);
+                }}
                 sx={footerStyles.gridItem}
               >
                 Technology
@@ -104,7 +131,10 @@ const Footer = (props) => {
                 item
                 component={Link}
                 to="/revolution"
-                onClick={() => props.setCurrentTab('/revolution')}
+                onClick={() => {
+                  navigationContext.changeTab('/revolution');
+                  navigationContext.changeIndex(2);
+                }}
                 sx={footerStyles.gridItem}
               >
                 Process
@@ -117,7 +147,10 @@ const Footer = (props) => {
                 item
                 component={Link}
                 to="/about"
-                onClick={() => props.setCurrentTab('/about')}
+                onClick={() => {
+                  navigationContext.changeTab('/about');
+                  navigationContext.changeIndex(3);
+                }}
                 sx={footerStyles.gridItem}
               >
                 About us
@@ -126,7 +159,10 @@ const Footer = (props) => {
                 item
                 component={Link}
                 to="/about"
-                onClick={() => props.setCurrentTab('/about')}
+                onClick={() => {
+                  navigationContext.changeTab('/about');
+                  navigationContext.changeIndex(3);
+                }}
                 sx={footerStyles.gridItem}
               >
                 History
@@ -135,7 +171,10 @@ const Footer = (props) => {
                 item
                 component={Link}
                 to="/about"
-                onClick={() => props.setCurrentTab('/about')}
+                onClick={() => {
+                  navigationContext.changeTab('/about');
+                  navigationContext.changeIndex(3);
+                }}
                 sx={footerStyles.gridItem}
               >
                 Team
@@ -148,7 +187,10 @@ const Footer = (props) => {
                 item
                 component={Link}
                 to="/contact"
-                onClick={() => props.setCurrentTab('/contact')}
+                onClick={() => {
+                  navigationContext.changeTab('/contact');
+                  navigationContext.changeIndex(4);
+                }}
                 sx={footerStyles.gridItem}
               >
                 Contact us

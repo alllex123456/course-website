@@ -1,30 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Grid from '@mui/material/Grid';
+
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 
-const Layout = () => {
-  const [currentTab, setCurrentTab] = useState(
-    `/${window.location.pathname.split('/')[1]}` === '/'
-      ? '/home'
-      : `/${window.location.pathname.split('/')[1]}`
-  );
-  const [currentListIndex, setCurrentListIndex] = useState(0);
-
+const Layout = (props) => {
   return (
-    <React.Fragment>
-      <Header
-        currentTab={currentTab}
-        setCurrentTab={setCurrentTab}
-        currentListIndex={currentListIndex}
-        setCurrentListIndex={setCurrentListIndex}
-      />
-      <Footer
-        currentTab={currentTab}
-        setCurrentTab={setCurrentTab}
-        currentListIndex={currentListIndex}
-        setCurrentListIndex={setCurrentListIndex}
-      />
-    </React.Fragment>
+    <Grid container direction="column" sx={{ minHeight: '100vh' }}>
+      <Grid item>
+        <Header
+          currentTab={props.currentTab}
+          setCurrentTab={props.setCurrentTab}
+          currentListIndex={props.currentListIndex}
+          setCurrentListIndex={props.setCurrentListIndex}
+        />
+      </Grid>
+      <Grid item>
+        <main>{props.children}</main>
+      </Grid>
+      <Grid item sx={{ marginTop: 'auto' }}>
+        <Footer
+          currentTab={props.currentTab}
+          setCurrentTab={props.setCurrentTab}
+          currentListIndex={props.currentListIndex}
+          setCurrentListIndex={props.setCurrentListIndex}
+        />
+      </Grid>
+    </Grid>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
 import styled from '@emotion/styled';
@@ -30,6 +30,7 @@ import { useMediaQuery } from '@mui/material';
 
 import logo from '../../assets/logo.svg';
 import { headerStyles } from './styles';
+import { NavigationContext } from '../../context/Navigation';
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -47,6 +48,7 @@ function ElevationScroll(props) {
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 const Header = (props) => {
+  const navigationContext = useContext(NavigationContext);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -79,12 +81,12 @@ const Header = (props) => {
     setOpenDrawer(open);
   };
 
-  const handleCurrentListIndex = (event, index) =>
-    props.setCurrentListIndex(index);
+  const handleCurrentListIndex = (index) =>
+    navigationContext.changeIndex(index);
 
   const menuOptions = [
     { label: 'Custom software development', route: 'custom-software' },
-    { label: 'Mobile app development', route: 'mobile-app-software' },
+    { label: 'Mobile app development', route: 'mobile-app' },
     { label: 'Website development', route: 'website-development' },
   ];
 
@@ -103,6 +105,11 @@ const Header = (props) => {
     { label: 'The Revolution', route: '/revolution', icon: <AddRoadIcon /> },
     { label: 'About Us', route: '/about', icon: <InfoIcon /> },
     { label: 'Contact Us', route: '/contact', icon: <AlternateEmailIcon /> },
+    {
+      label: 'Free estimate',
+      route: '/estimate',
+      icon: null,
+    },
   ];
 
   const tabs = (
@@ -110,7 +117,7 @@ const Header = (props) => {
       <Tabs
         sx={headerStyles.tabs}
         textColor="secondary"
-        value={props.currentTab}
+        value={navigationContext.currentTab}
       >
         {navOptions.map((item, index) => (
           <Tab
@@ -124,18 +131,16 @@ const Header = (props) => {
             label={item.label}
             value={item.route}
             to={item.route}
-            onClick={() => props.setCurrentTab(item.route)}
-            sx={headerStyles.tab}
+            onClick={() => navigationContext.changeTab(item.route)}
+            sx={
+              item.route === '/estimate'
+                ? headerStyles.freeEstimateButton
+                : headerStyles.tab
+            }
           />
         ))}
       </Tabs>
-      <Button
-        variant="contained"
-        color="secondary"
-        sx={headerStyles.freeEstimateButton}
-      >
-        Free estimate
-      </Button>
+
       <Menu
         id="hover-menu"
         anchorEl={anchorEl}
@@ -154,7 +159,7 @@ const Header = (props) => {
             component={Link}
             to={`/services/${option.route}`}
             onClick={(event) => {
-              props.setCurrentTab('/services');
+              navigationContext.changeTab('/services');
               handleClose();
             }}
             sx={headerStyles.menuItem}
@@ -183,12 +188,16 @@ const Header = (props) => {
               value={item.route}
               to={item.route}
               selected={index === props.currentListIndex}
-              onClick={(event) => {
-                props.setCurrentTab(item.route);
-                props.handleCurrentListIndex(event, index);
+              onClick={() => {
+                navigationContext.changeTab(item.route);
+                handleCurrentListIndex(index);
               }}
               divider
-              sx={headerStyles.listItem}
+              sx={
+                item.route === '/estimate'
+                  ? headerStyles.freeEstimateButton
+                  : headerStyles.listItem
+              }
             >
               <ListItemIcon sx={headerStyles.listItemIcon}>
                 {item.icon}
@@ -212,13 +221,6 @@ const Header = (props) => {
         sx={headerStyles.drawer}
       >
         {list}
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={headerStyles.freeEstimateButton}
-        >
-          Free estimate
-        </Button>
       </SwipeableDrawer>
       <IconButton
         onClick={() => setOpenDrawer((prev) => !prev)}

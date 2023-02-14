@@ -1,12 +1,12 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import Services from '../../components/Services/Services';
+import { Paper } from '@mui/material';
 
 const ServicesPage = () => {
   return (
-    <React.Fragment>
-      <div>ServicesPage</div>
-      <Outlet />
-    </React.Fragment>
+    <Paper sx={{ padding: '5rem', mb: '2rem' }}>
+      <Services />
+    </Paper>
   );
 };
 

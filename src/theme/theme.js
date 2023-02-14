@@ -17,6 +17,15 @@ export const theme = createTheme({
     },
   },
   typography: {
+    h2: {
+      fontFamily: 'Raleway',
+      fontWeight: 700,
+    },
+    h3: {
+      fontFamily: 'Raleway',
+      fontWeight: 700,
+      fontSize: '1.5rem',
+    },
     tab: {
       fontFamily: 'Raleway',
       fontSize: '0.8rem',
@@ -27,12 +36,19 @@ export const theme = createTheme({
         opacity: 1,
       },
     },
+    bodyGrey: {
+      color: '#999',
+    },
     pacificoBtn: {
       fontFamily: 'Pacifico',
       fontSize: '0.8rem',
       textTransform: 'none',
       color: 'common.white',
+      backgroundColor: 'secondary.main',
       borderRadius: '50px',
+      '&:hover': {
+        backgroundColor: 'secondary.dark',
+      },
     },
   },
 });

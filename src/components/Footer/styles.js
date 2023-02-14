@@ -1,7 +1,12 @@
+import { theme } from '../../theme/theme';
+
 export const footerStyles = {
   footer: {
     backgroundColor: 'primary.main',
     height: '12rem',
+    [theme.breakpoints.down('md')]: {
+      height: '4rem',
+    },
   },
 
   gridContainer: {

@@ -16,6 +16,10 @@ export const headerStyles = {
     ...theme.typography.pacificoBtn,
     marginLeft: '50px',
     marginRight: '25px',
+    transition: 'all 0.2s',
+    '&:active, &:visited': {
+      ...theme.typography.pacificoBtn,
+    },
   },
   logoBtn: {
     backgroundColor: 'transparent',
